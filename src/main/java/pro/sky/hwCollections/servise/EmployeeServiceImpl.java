@@ -1,6 +1,10 @@
 package pro.sky.hwCollections.servise;
 
+import ch.qos.logback.classic.spi.IThrowableProxy;
 import org.springframework.stereotype.Service;
+import pro.sky.hwCollections.exceptions.EmployeeAlreadyAddedException;
+import pro.sky.hwCollections.exceptions.EmployeeNotFoundException;
+import pro.sky.hwCollections.exceptions.EmployeeStorageIsFullException;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,8 +21,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void addEmployee(String name, String surname) {
+        for (Employee employee : employeeList) {
+            if (employee.getName().equals(name) && employee.getSurname().equals(surname)) {
+                throw new EmployeeAlreadyAddedException("Employee already added");
+            }
+        }
         if (employeeList.size() < MAX_EMPLOYEES) {
             employeeList.add(new Employee(name, surname));
+        } else {
+            throw new EmployeeStorageIsFullException("Storage is already full, bitch");
         }
     }
 
@@ -29,6 +40,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             Employee employee = employeeIterator.next();
             if (name.equals(employee.getName()) && surname.equals(employee.getSurname())) {
                 employeeIterator.remove();
+            } else {
+                throw new EmployeeNotFoundException("Employee not found, glupishka");
             }
         }
     }
@@ -42,6 +55,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 return employee.toString();
             }
         }
-        return "Employee not found";
+        throw new EmployeeNotFoundException("Employee not found, glupishka");
     }
 }

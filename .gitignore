@@ -1,7 +1,6 @@
 HELP.md
 target/
 .idea
-src
 pom.xml
 mvnw
 .mvn

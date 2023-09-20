@@ -35,8 +35,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         } else {
             throw new EmployeeStorageIsFullException("Storage is already full, bitch");
         }
-        Employee newEmployee = new Employee(name, surname);
-        employeeList.add(newEmployee);
     }
 
     @Override
@@ -73,4 +71,3 @@ public class EmployeeServiceImpl implements EmployeeService {
         return findEmployee;
     }
 }
-

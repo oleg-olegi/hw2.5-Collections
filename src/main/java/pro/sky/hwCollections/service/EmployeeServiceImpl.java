@@ -1,6 +1,5 @@
-package pro.sky.hwCollections.servise;
+package pro.sky.hwCollections.service;
 
-import ch.qos.logback.classic.spi.IThrowableProxy;
 import org.springframework.stereotype.Service;
 import pro.sky.hwCollections.exceptions.EmployeeAlreadyAddedException;
 import pro.sky.hwCollections.exceptions.EmployeeNotFoundException;
@@ -19,6 +18,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeeList = new ArrayList<>();
     }
 
+    public List<Employee> getEmployeeList() {
+        return this.employeeList;
+    }
+
+
     @Override
     public void addEmployee(String name, String surname) {
         for (Employee employee : employeeList) {
@@ -31,30 +35,42 @@ public class EmployeeServiceImpl implements EmployeeService {
         } else {
             throw new EmployeeStorageIsFullException("Storage is already full, bitch");
         }
+        Employee newEmployee = new Employee(name, surname);
+        employeeList.add(newEmployee);
     }
 
     @Override
-    public void deleteEmployee(String name, String surname) {
+    public Employee deleteEmployee(String name, String surname) {
+        Employee foundEmployee = null;
         Iterator<Employee> employeeIterator = employeeList.iterator();
         while (employeeIterator.hasNext()) {
             Employee employee = employeeIterator.next();
             if (name.equals(employee.getName()) && surname.equals(employee.getSurname())) {
+                foundEmployee = employee;
                 employeeIterator.remove();
-            } else {
-                throw new EmployeeNotFoundException("Employee not found, glupishka");
             }
         }
+        if (foundEmployee == null) {
+            throw new EmployeeNotFoundException("Employee not found, glupishka");
+        }
+        return foundEmployee;
     }
 
     @Override
-    public String findEmployee(String name, String surname) {
+    public Employee findEmployee(String name, String surname) {
+        Employee findEmployee = null;
         Iterator<Employee> employeeIterator = employeeList.iterator();
         while (employeeIterator.hasNext()) {
             Employee employee = employeeIterator.next();
             if (name.equals(employee.getName()) && surname.equals(employee.getSurname())) {
-                return employee.toString();
+                findEmployee = employee;
+                return findEmployee;
             }
         }
-        throw new EmployeeNotFoundException("Employee not found, glupishka");
+        if (findEmployee == null) {
+            throw new EmployeeNotFoundException("Employee not found, glupishka");
+        }
+        return findEmployee;
     }
 }
+

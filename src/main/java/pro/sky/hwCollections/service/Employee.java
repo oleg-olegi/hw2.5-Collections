@@ -1,4 +1,4 @@
-package pro.sky.hwCollections.servise;
+package pro.sky.hwCollections.service;
 
 import java.util.Objects;
 

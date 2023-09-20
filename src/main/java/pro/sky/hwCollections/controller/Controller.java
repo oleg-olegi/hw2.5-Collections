@@ -44,7 +44,7 @@ public class Controller {
             Employee removedEmployee = employeeService.deleteEmployee(name, surname);
             return ResponseEntity.ok(removedEmployee);
         } catch (EmployeeNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not found");
+            return new ResponseEntity("Employee not found", HttpStatus.NOT_FOUND);
         }
     }
 

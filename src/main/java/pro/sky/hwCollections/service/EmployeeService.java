@@ -5,7 +5,7 @@ import pro.sky.hwCollections.exceptions.EmployeeNotFoundException;
 import java.util.List;
 
 public interface EmployeeService {
-    public void addEmployee(String name, String surname);
+    public Employee addEmployee(String name, String surname);
 
 
     public Employee deleteEmployee(String name, String surname) throws Exception;

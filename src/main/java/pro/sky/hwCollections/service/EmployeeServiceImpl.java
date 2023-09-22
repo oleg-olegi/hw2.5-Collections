@@ -40,29 +40,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee deleteEmployee(String name, String surname) {
-        Employee foundEmployee;
-        Iterator<Employee> employeeIterator = employeeList.iterator();
-        while (employeeIterator.hasNext()) {
-            Employee employee = employeeIterator.next();
-            if (name.equals(employee.getName()) && surname.equals(employee.getSurname())) {
-                foundEmployee = employee;
-                employeeIterator.remove();
-                return foundEmployee;
-            }
+        Employee foundEmployee = new Employee(name, surname);
+        if (employeeList.contains(foundEmployee)) {
+            employeeList.remove(foundEmployee);
+        } else {
+            throw new EmployeeNotFoundException("Employee not found, glupishka");
         }
-        throw new EmployeeNotFoundException("Employee not found, glupishka");
+        return foundEmployee;
     }
+
 
     @Override
     public Employee findEmployee(String name, String surname) {
-        Employee findEmployee;
-        Iterator<Employee> employeeIterator = employeeList.iterator();
-        while (employeeIterator.hasNext()) {
-            Employee employee = employeeIterator.next();
-            if (name.equals(employee.getName()) && surname.equals(employee.getSurname())) {
-                findEmployee = employee;
-                return findEmployee;
-            }
+        Employee foundEmployee = new Employee(name, surname);
+        if (employeeList.contains(foundEmployee)) {
+            return foundEmployee;
         }
         throw new EmployeeNotFoundException("Employee not found, glupishka");
     }
